@@ -1,9 +1,23 @@
-import { InferGetStaticPropsType } from "next";
+import { useQuery } from "react-query";
 import { Product } from "../components/Product";
 
-const ProductsPage = ({
-  data,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const getProducts = async () => {
+  const res = await fetch("https://fakestoreapi.com/products");
+  const data: StoreApiResponse[] = await res.json();
+
+  return data;
+};
+const ProductsPage = () => {
+  const { data, isLoading, error } = useQuery("products", getProducts);
+
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
+
+  if (!data || error) {
+    return <div>Coś poszło nie tak</div>;
+  }
+
   return (
     <ul className="grid  gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
       {data.map((product) => {
@@ -23,18 +37,6 @@ const ProductsPage = ({
       })}
     </ul>
   );
-};
-
-//SSG
-export const getStaticProps = async () => {
-  const res = await fetch("https://fakestoreapi.com/products");
-  const data: StoreApiResponse[] = await res.json();
-
-  return {
-    props: {
-      data,
-    },
-  };
 };
 
 interface StoreApiResponse {
