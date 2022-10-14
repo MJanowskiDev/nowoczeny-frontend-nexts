@@ -1,6 +1,6 @@
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
-import { Product } from "../components/Product";
+import { ProductDetails } from "../components/Product";
 import { Main } from "../components/Main";
 
 const DATA = {
@@ -17,6 +17,7 @@ const DATA = {
   thumbnailUrl: `https://picsum.photos/id/1060/536/354`,
   thumbnailAlt: `random-image`,
   rating: 4.5,
+  title: "Test",
 };
 
 const Home = () => {
@@ -24,7 +25,7 @@ const Home = () => {
     <div className="flex flex-col min-h-screen">
       <Header />
       <Main>
-        <Product data={DATA} />
+        <ProductDetails data={DATA} />
       </Main>
       <Footer />
     </div>

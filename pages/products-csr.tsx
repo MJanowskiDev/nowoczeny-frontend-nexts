@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { Product } from "../components/Product";
+import { ProductDetails } from "../components/Product";
 
 const getProducts = async () => {
   const res = await fetch("https://fakestoreapi.com/products");
@@ -23,7 +23,7 @@ const ProductsPage = () => {
       {data.map((product) => {
         return (
           <li key={product.id} className="shadow-xl border-2">
-            <Product
+            <ProductDetails
               data={{
                 description: product.description,
                 title: product.title,
