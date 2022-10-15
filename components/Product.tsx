@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { Rating } from "./Rating";
 
 interface ProductDetails {
+  id: number;
   title: string;
   description: string;
   thumbnailUrl: string;
@@ -10,7 +12,7 @@ interface ProductDetails {
 
 type ProductListItem = Pick<
   ProductDetails,
-  "title" | "thumbnailAlt" | "thumbnailUrl"
+  "title" | "thumbnailAlt" | "thumbnailUrl" | "id"
 >;
 
 interface ProductProps {
@@ -34,7 +36,11 @@ export const ProductListItem = ({ data }: ProductListItemProps) => {
   return (
     <div>
       <img src={data.thumbnailUrl} alt={data.thumbnailAlt}></img>
-      <h2 className="p-4 text-3xl font-bold">{data.title}</h2>
+      <Link href={`/products/${data.id}/`}>
+        <a>
+          <h2 className="p-4 text-3xl font-bold">{data.title}</h2>
+        </a>
+      </Link>
     </div>
   );
 };

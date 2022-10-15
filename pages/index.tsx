@@ -18,6 +18,7 @@ const DATA = {
   thumbnailAlt: `random-image`,
   rating: 4.5,
   title: "Test",
+  id: 1,
 };
 
 const Home = () => {

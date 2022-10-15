@@ -1,4 +1,5 @@
 import { InferGetStaticPropsType, GetStaticPropsContext } from "next";
+import Link from "next/link";
 import { ProductDetails } from "../../components/Product";
 
 const ProductIdPage = ({
@@ -10,8 +11,12 @@ const ProductIdPage = ({
 
   return (
     <div>
+      <Link href={"/products"}>
+        <a>Go back</a>
+      </Link>
       <ProductDetails
         data={{
+          id: data.id,
           title: data.title,
           thumbnailAlt: data.title,
           thumbnailUrl: data.image,
