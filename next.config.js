@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   trailingSlash: true,
   images: {
-    domains: ["fakestoreapi.com", "picsum.photos"],
+    domains: ["picsum.photos", "naszsklep-api.vercel.app"],
     formats: ["image/avif", "image/webp"],
   },
 };
