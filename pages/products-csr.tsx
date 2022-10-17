@@ -27,6 +27,7 @@ const ProductsPage = () => {
               data={{
                 id: product.id,
                 description: product.description,
+                longDescription: product.longDescription,
                 title: product.title,
                 thumbnailAlt: product.title,
                 thumbnailUrl: product.image,
@@ -45,6 +46,7 @@ interface StoreApiResponse {
   title: string;
   price: number;
   description: string;
+  longDescription: string;
   category: string;
   image: string;
   rating: {
