@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Rating } from "./Rating";
 
 import ReactMarkdown from "react-markdown";
+import { NextSeo } from "next-seo";
 
 interface ProductDetails {
   id: number;
@@ -26,6 +27,24 @@ export const ProductDetails = ({ data }: ProductProps) => {
   return (
     <div>
       <div className="bg-white p-4">
+        <NextSeo
+          title={data.title}
+          description={data.description}
+          canonical={`https://naszsklep.vercel.app/products/${data.id}`}
+          openGraph={{
+            url: `https://naszsklep.vercel.app/products/${data.id}`,
+            title: data.title,
+            description: data.description,
+            images: [
+              {
+                url: data.thumbnailUrl,
+                alt: data.thumbnailAlt,
+                type: "image/jpeg",
+              },
+            ],
+            site_name: "Nasz sklep",
+          }}
+        />
         <Image
           src={data.thumbnailUrl}
           alt={data.thumbnailAlt}
