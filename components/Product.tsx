@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Rating } from "./Rating";
 
-import ReactMarkdown from "react-markdown";
+import { NextMarkdown } from "./NextMarkdown";
 import { NextSeo } from "next-seo";
 
 interface ProductDetails {
@@ -57,7 +57,10 @@ export const ProductDetails = ({ data }: ProductProps) => {
       <h2 className="p-4 text-3xl font-bold">{data.title}</h2>
       <p className="p-4">{data.description}</p>
       <article className="prose p-4 lg:prose-xl">
-        <ReactMarkdown className="p-4">{data.longDescription}</ReactMarkdown>
+        <NextMarkdown>{data.longDescription}</NextMarkdown>
+        <NextMarkdown>
+          {"[Linkt to product number 2](/products/2)"}
+        </NextMarkdown>
       </article>
       <Rating rating={data.rating} />
     </div>
