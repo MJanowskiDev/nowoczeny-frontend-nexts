@@ -1,9 +1,12 @@
-import ReactMarkdown from "react-markdown";
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import Link from "next/link";
 
-export const NextMarkdown = ({ children }: { children: string }) => {
+import { MDXResult } from "../utils";
+
+export const NextMarkdown = ({ children }: { children: MDXResult }) => {
   return (
-    <ReactMarkdown
+    <MDXRemote
+      {...children}
       components={{
         a: ({ href, ...props }) => {
           if (!href) {
@@ -17,8 +20,6 @@ export const NextMarkdown = ({ children }: { children: string }) => {
           }
         },
       }}
-    >
-      {children}
-    </ReactMarkdown>
+    ></MDXRemote>
   );
 };

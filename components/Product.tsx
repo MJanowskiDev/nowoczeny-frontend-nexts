@@ -1,15 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Rating } from "./Rating";
-
 import { NextMarkdown } from "./NextMarkdown";
+
 import { NextSeo } from "next-seo";
+import { MDXResult } from "../utils";
 
 interface ProductDetails {
   id: number;
   title: string;
   description: string;
-  longDescription: string;
+  longDescription: MDXResult;
   thumbnailUrl: string;
   thumbnailAlt: string;
   rating: number;
@@ -23,6 +24,7 @@ type ProductListItem = Pick<
 interface ProductProps {
   data: ProductDetails;
 }
+
 export const ProductDetails = ({ data }: ProductProps) => {
   return (
     <div>
@@ -58,9 +60,6 @@ export const ProductDetails = ({ data }: ProductProps) => {
       <p className="p-4">{data.description}</p>
       <article className="prose p-4 lg:prose-xl">
         <NextMarkdown>{data.longDescription}</NextMarkdown>
-        <NextMarkdown>
-          {"[Linkt to product number 2](/products/2)"}
-        </NextMarkdown>
       </article>
       <Rating rating={data.rating} />
     </div>

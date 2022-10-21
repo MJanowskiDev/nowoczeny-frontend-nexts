@@ -32,9 +32,7 @@ const DATA = {
 const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Main>
-        <ProductDetails data={DATA} />
-      </Main>
+      <Main>{/* <ProductDetails data={DATA} /> */}</Main>
     </div>
   );
 };
