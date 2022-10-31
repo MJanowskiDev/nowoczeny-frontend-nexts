@@ -15,7 +15,9 @@ export const Layout = ({ children }: LayoutProps) => {
         <meta name="description" content="Online shop description..."></meta>
       </Head>
       <Header />
-      <div className="flex-grow">{children}</div>
+      <div className="flex-grow flex  justify-center    ">
+        <div className=" w-full max-w-5xl pt-2">{children}</div>
+      </div>
       <Footer />
     </div>
   );

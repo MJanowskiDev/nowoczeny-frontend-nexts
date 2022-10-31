@@ -5,6 +5,7 @@ import { NextMarkdown } from "./NextMarkdown";
 
 import { NextSeo } from "next-seo";
 import { MDXResult } from "../utils";
+import { useCartState } from "./Cart/CartContext";
 
 interface ProductDetails {
   id: number;
@@ -70,6 +71,10 @@ interface ProductListItemProps {
   data: ProductListItem;
 }
 export const ProductListItem = ({ data }: ProductListItemProps) => {
+  const { addItem } = useCartState();
+  const onAddToCartClickHandle = () => {
+    addItem({ id: data.id.toString(), price: 5, title: data.title });
+  };
   return (
     <div>
       <div className="bg-white p-4">
@@ -82,11 +87,19 @@ export const ProductListItem = ({ data }: ProductListItemProps) => {
           objectFit="contain"
         />
       </div>
-      <Link href={`/products/${data.id}/`}>
-        <a>
-          <h2 className="p-4 text-3xl font-bold">{data.title}</h2>
-        </a>
-      </Link>
+      <div className="p-4 flex flex-col justify-between h-44 ">
+        <Link href={`/products/${data.id}/`}>
+          <a>
+            <h2 className="text-3xl font-bold pb-2">{data.title}</h2>
+          </a>
+        </Link>
+        <button
+          onClick={onAddToCartClickHandle}
+          className="w-full inline-block rounded border border-indigo-600 px-12 py-3 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500"
+        >
+          Add to Cart
+        </button>
+      </div>
     </div>
   );
 };
