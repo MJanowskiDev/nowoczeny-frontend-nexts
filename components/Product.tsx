@@ -8,7 +8,7 @@ import { MDXResult } from "../utils";
 import { useCartState } from "./Cart/CartContext";
 
 interface ProductDetails {
-  id: number;
+  id: string;
   title: string;
   description: string;
   longDescription: MDXResult;
