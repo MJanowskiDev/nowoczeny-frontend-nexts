@@ -47,7 +47,9 @@ export const getStaticProps = async () => {
     }
   `;
 
-  const { data } = await apolloClient.query<GetProductsListQuery>({ query });
+  const { data } = await apolloClient.query<GetProductsListQuery>({
+    query: GetProductsListDocument,
+  });
 
   return {
     props: {
