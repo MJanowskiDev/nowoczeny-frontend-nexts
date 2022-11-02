@@ -3,8 +3,14 @@ import Link from "next/link";
 import { ProductDetails } from "../../components/Product";
 
 import { serialize } from "next-mdx-remote/serialize";
-import { gql } from "@apollo/client";
 import { apolloClient } from "../../graphql/apolloClient";
+
+import {
+  GetProductDetailsBySlugDocument,
+  GetProductDetailsBySlugQuery,
+  GetProductsSlugsDocument,
+  GetProductsSlugsQuery,
+} from "../../graphql/generated/graphql";
 
 const ProductIdPage = ({
   data,
@@ -37,16 +43,8 @@ export default ProductIdPage;
 
 //SSG
 export const getStaticPaths = async () => {
-  const query = gql`
-    query GetProductsSlugs {
-      products {
-        slug
-      }
-    }
-  `;
-
-  const { data } = await apolloClient.query<GetProductsSlugsResponse>({
-    query,
+  const { data } = await apolloClient.query<GetProductsSlugsQuery>({
+    query: GetProductsSlugsDocument,
   });
 
   return {
@@ -64,23 +62,9 @@ export const getStaticProps = async ({
     return { props: {}, notFound: true };
   }
 
-  const query = gql`
-    query GetProductDetailsBySlug($slug: String) {
-      products(where: { slug: $slug }) {
-        slug
-        name
-        price
-        description
-        images(first: 1) {
-          url
-        }
-      }
-    }
-  `;
-
-  const { data } = await apolloClient.query<ProductBySlug>({
+  const { data } = await apolloClient.query<GetProductDetailsBySlugQuery>({
     variables: { slug: params.productId },
-    query,
+    query: GetProductDetailsBySlugDocument,
   });
 
   if (!data || !data.products[0]) {
@@ -99,26 +83,6 @@ export const getStaticProps = async ({
     },
   };
 };
-
-interface ProductBySlug {
-  products: Product[];
-}
-
-interface Product {
-  slug: string;
-  name: string;
-  price: number;
-  description: string;
-  images: { url: string }[];
-}
-
-interface GetProductsSlugsResponse {
-  products: Product[];
-}
-
-interface Product {
-  slug: string;
-}
 
 export type InferGetStaticPathsType<T> = T extends () => Promise<{
   paths: Array<{ params: infer R }>;
