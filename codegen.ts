@@ -9,9 +9,9 @@ const config: CodegenConfig = {
     "graphql/generated/": {
       preset: "client",
       plugins: [
-        "typescript",
-        "typescript-operations",
-        "typescript-react-apollo",
+        // "typescript",
+        // "typescript-operations",
+        // "typescript-react-apollo",
       ],
     },
   },
