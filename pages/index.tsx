@@ -6,7 +6,11 @@ import {
   CreateProductReviewMutationVariables,
   GetProductsListQueryVariables,
   GetProductsSlugsQueryVariables,
-  useCreateProductReviewMutation,
+  CreateOrderMutationDocument,
+  CreateOrderMutationMutation,
+  CreateOrderMutationMutationVariables,
+
+  // useCreateProductReviewMutation,
 } from "../graphql/generated/graphql";
 
 const query = gql`
@@ -23,20 +27,20 @@ const query = gql`
 const Home = () => {
   const { loading, error, data } = useQuery(query);
 
-  const [createReview, createReviewResult] = useCreateProductReviewMutation();
-  const addReviewHook = () => {
-    createReview({
-      variables: {
-        review: {
-          headline: "First review sent from next app",
-          name: "MJ",
-          email: "mj@mj.mj",
-          content: "Another review content",
-          rating: 4,
-        },
-      },
-    });
-  };
+  // const [createReview, createReviewResult] = useCreateProductReviewMutation();
+  // const addReviewHook = () => {
+  //   createReview({
+  //     variables: {
+  //       review: {
+  //         headline: "First review sent from next app",
+  //         name: "MJ",
+  //         email: "mj@mj.mj",
+  //         content: "Another review content",
+  //         rating: 4,
+  //       },
+  //     },
+  //   });
+  // };
 
   const addReview = async () => {
     const data = await apolloClient.mutate<
@@ -51,6 +55,55 @@ const Home = () => {
           email: "mj@mj.mj",
           content: "Another review content",
           rating: 4,
+        },
+      },
+    });
+
+    console.log(data);
+  };
+
+  const addProduct = async () => {
+    const data = await apolloClient.mutate<
+      CreateOrderMutationMutation,
+      CreateOrderMutationMutationVariables
+    >({
+      mutation: CreateOrderMutationDocument,
+      variables: {
+        order: {
+          email: "mail@mail.pl",
+          total: 2039,
+          stripeCheckoutId: "!!stripe-checkout-id!!",
+          orderItems: {
+            create: [
+              {
+                quantity: 7,
+                total: 35,
+                product: {
+                  connect: {
+                    id: "ckdu49mfc0h070102jgprxnj0",
+                  },
+                },
+              },
+              {
+                quantity: 1,
+                total: 5,
+                product: {
+                  connect: {
+                    id: "ckdu48unc0gzq0158mbzvyzg3",
+                  },
+                },
+              },
+              {
+                quantity: 1,
+                total: 1999,
+                product: {
+                  connect: {
+                    id: "ckdu44mn40gxh010405uwgbtw",
+                  },
+                },
+              },
+            ],
+          },
         },
       },
     });
@@ -76,16 +129,24 @@ const Home = () => {
       >
         Add review
       </button>
+
+      <button
+        type="button"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={addProduct}
+      >
+        Add order
+      </button>
       <div>
         <div className="text-xl font-bold">Add review query</div>
-        <button
+        {/* <button
           type="button"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={addReviewHook}
         >
           Add review using hook
-        </button>
-        <pre>{JSON.stringify(createReviewResult.data, null, 2)}</pre>
+        </button> */}
+        {/* <pre>{JSON.stringify(createReviewResult.data, null, 2)}</pre> */}
       </div>
       <div className="text-xl font-bold">Get product list JSON</div>
       <pre>{JSON.stringify(data, null, 2)}</pre>
