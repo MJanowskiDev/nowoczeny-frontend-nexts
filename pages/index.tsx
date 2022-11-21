@@ -1,4 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
+import { NewsletterForm } from "../components/NewsletterForm";
 import { apolloClient } from "../graphql/apolloClient";
 import {
   CreateProductReviewDocument,
@@ -121,6 +122,10 @@ const Home = () => {
 
   return (
     <div className="flex flex-col min-h-screen gap-6">
+      <div>
+        <h1>Newsletter form</h1>
+        <NewsletterForm />
+      </div>
       <div className="text-xl font-bold">Add review query</div>
       <button
         type="button"
