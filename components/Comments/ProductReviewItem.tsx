@@ -4,8 +4,11 @@ interface ProductReviewItemProps {
 }
 
 export const ProductReviewItem = ({ review }: ProductReviewItemProps) => {
+  const isOptimistic = review.id.startsWith("-");
   return (
-    <div className="border-b-2 my-4 p-2 ">
+    <div
+      className={`border-b-2 my-4 p-2  ${isOptimistic ? "text-gray-400" : ""}`}
+    >
       <div className="pb-2 flex justify-between w-full">
         <div className="text-2xl font-bold pb-4 ">{review.headline}</div>
         <div className=" text-right">

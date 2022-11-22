@@ -10679,7 +10679,7 @@ export type CreateProductReviewMutationVariables = Exact<{
 }>;
 
 
-export type CreateProductReviewMutation = { __typename?: 'Mutation', createReview?: { __typename?: 'Review', id: string, stage: Stage } | null };
+export type CreateProductReviewMutation = { __typename?: 'Mutation', review?: { __typename?: 'Review', id: string, content: string, createdAt: any, email: string, headline: string, name: string, rating?: number | null } | null };
 
 export type CreateOrderMutationMutationVariables = Exact<{
   order: OrderCreateInput;
@@ -10702,7 +10702,7 @@ export type GetReviewsForProductSlugQueryVariables = Exact<{
 }>;
 
 
-export type GetReviewsForProductSlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', slug: string, reviews: Array<{ __typename?: 'Review', id: string, content: string, createdAt: any, email: string, headline: string, name: string, rating?: number | null }> } | null };
+export type GetReviewsForProductSlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', reviews: Array<{ __typename?: 'Review', id: string, content: string, createdAt: any, email: string, headline: string, name: string, rating?: number | null }> } | null };
 
 export type GetProductsListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10734,12 +10734,11 @@ export const ReviewContentFragmentDoc = gql`
     `;
 export const CreateProductReviewDocument = gql`
     mutation CreateProductReview($review: ReviewCreateInput!) {
-  createReview(data: $review) {
-    id
-    stage
+  review: createReview(data: $review) {
+    ...reviewContent
   }
 }
-    `;
+    ${ReviewContentFragmentDoc}`;
 export type CreateProductReviewMutationFn = Apollo.MutationFunction<CreateProductReviewMutation, CreateProductReviewMutationVariables>;
 
 /**
@@ -10836,7 +10835,6 @@ export type PublishProductReviewMutationOptions = Apollo.BaseMutationOptions<Pub
 export const GetReviewsForProductSlugDocument = gql`
     query GetReviewsForProductSlug($slug: String!) {
   product(where: {slug: $slug}) {
-    slug
     reviews(orderBy: createdAt_DESC) {
       ...reviewContent
     }

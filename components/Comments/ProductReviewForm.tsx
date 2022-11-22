@@ -7,6 +7,7 @@ import {
   useCreateProductReviewMutation,
   usePublishProductReviewMutation,
   GetReviewsForProductSlugDocument,
+  GetReviewsForProductSlugQuery,
 } from "../../graphql/generated/gql-types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
@@ -16,7 +17,7 @@ const commentFormSchema = yup.object({
   headline: yup.string().required(),
   name: yup.string().required(),
   email: yup.string().required().email(),
-  comment: yup.string().required(),
+  content: yup.string().required(),
   rating: yup.number().min(1).max(5).required(),
 });
 
@@ -37,12 +38,40 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
   });
 
   const [createReview, createReviewResult] = useCreateProductReviewMutation({
-    refetchQueries: [
-      {
+    // refetchQueries: [
+    //   {
+    //     query: GetReviewsForProductSlugDocument,
+    //     variables: { slug: productSlug },
+    //   },
+    // ],
+    update(cache, result) {
+      const originalReviewsQuery =
+        cache.readQuery<GetReviewsForProductSlugQuery>({
+          query: GetReviewsForProductSlugDocument,
+          variables: { slug: productSlug },
+        });
+      console.log(originalReviewsQuery, result);
+      if (!originalReviewsQuery?.product?.reviews || !result.data?.review) {
+        return;
+      }
+
+      const newReviewsQuery = {
+        ...originalReviewsQuery,
+        product: {
+          ...originalReviewsQuery.product,
+          reviews: [
+            result.data?.review,
+            ...originalReviewsQuery.product.reviews,
+          ],
+        },
+      };
+      console.log(newReviewsQuery, "HERE");
+      cache.writeQuery({
         query: GetReviewsForProductSlugDocument,
         variables: { slug: productSlug },
-      },
-    ],
+        data: newReviewsQuery,
+      });
+    },
   });
   const [publishReview, publishRewievResult] =
     usePublishProductReviewMutation();
@@ -52,11 +81,7 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
       const res = await createReview({
         variables: {
           review: {
-            headline: data.headline,
-            name: data.name,
-            email: data.email,
-            content: data.comment,
-            rating: data.rating,
+            ...data,
             product: {
               connect: {
                 slug: productSlug,
@@ -64,10 +89,19 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
             },
           },
         },
+        optimisticResponse: {
+          __typename: "Mutation",
+          review: {
+            __typename: "Review",
+            id: (-Math.random()).toString(),
+            createdAt: Date.now().toString(),
+            ...data,
+          },
+        },
       });
 
       await publishReview({
-        variables: { id: res.data?.createReview?.id || "" },
+        variables: { id: res.data?.review?.id || "" },
       });
       // if (!publishRewievResult.error) {
       //   newCommentHandle();
@@ -79,7 +113,7 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
 
   return (
     <div className="my-4">
-      <h1 className="text-5xl font-bold pb-4">Create comment</h1>
+      <h1 className="text-5xl font-bold pb-4">Create content</h1>
 
       <form className="space-y-4" onSubmit={onSubmit}>
         <Input
@@ -99,7 +133,7 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
           />
         </div>
         <Textarea
-          id="comment"
+          id="content"
           register={register}
           errors={errors}
           label="Comment"

@@ -10,7 +10,6 @@ fragment reviewContent on Review {
 
 query GetReviewsForProductSlug($slug: String!) {
   product(where: { slug: $slug }) {
-    slug
     reviews(orderBy: createdAt_DESC) {
       ...reviewContent
     }

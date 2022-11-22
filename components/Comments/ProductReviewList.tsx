@@ -15,6 +15,7 @@ export const ProductReviewList = ({ productSlug }: ProductReviewListProps) => {
   if (!data?.product) {
     return null;
   }
+
   return (
     <>
       <h1 className="text-5xl font-bold pb-4">Comments</h1>
