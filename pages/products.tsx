@@ -5,7 +5,7 @@ import { apolloClient } from "../graphql/apolloClient";
 import {
   GetProductsListDocument,
   GetProductsListQuery,
-} from "../graphql/generated/graphql";
+} from "../graphql/generated/gql-types";
 
 const ProductsPage = ({
   data,

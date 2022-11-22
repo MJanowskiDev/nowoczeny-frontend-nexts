@@ -7,8 +7,11 @@ import { NextSeo } from "next-seo";
 import { MDXResult } from "../utils";
 import { useCartState } from "./Cart/CartContext";
 
+import { ProductReviewContainer } from "./Comments/ProductReviewContainer";
+
 interface ProductDetails {
   id: string;
+  slug: string;
   title: string;
   description: string;
   longDescription: MDXResult;
@@ -19,7 +22,7 @@ interface ProductDetails {
 
 type ProductListItem = Pick<
   ProductDetails,
-  "title" | "thumbnailAlt" | "thumbnailUrl" | "id"
+  "title" | "thumbnailAlt" | "thumbnailUrl" | "id" | "slug"
 >;
 
 interface ProductProps {
@@ -63,6 +66,7 @@ export const ProductDetails = ({ data }: ProductProps) => {
         <NextMarkdown>{data.longDescription}</NextMarkdown>
       </article>
       <Rating rating={data.rating} />
+      <ProductReviewContainer productSlug={data.slug} />
     </div>
   );
 };

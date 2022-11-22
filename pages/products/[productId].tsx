@@ -10,7 +10,7 @@ import {
   GetProductDetailsBySlugQuery,
   GetProductsSlugsDocument,
   GetProductsSlugsQuery,
-} from "../../graphql/generated/graphql";
+} from "../../graphql/generated/gql-types";
 
 const ProductIdPage = ({
   data,
@@ -27,6 +27,7 @@ const ProductIdPage = ({
       <ProductDetails
         data={{
           id: data.slug,
+          slug: data.slug,
           title: data.name,
           thumbnailAlt: data.name,
           thumbnailUrl: data.images[0].url,

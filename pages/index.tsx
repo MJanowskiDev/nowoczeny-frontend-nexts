@@ -12,7 +12,7 @@ import {
   CreateOrderMutationMutationVariables,
 
   // useCreateProductReviewMutation,
-} from "../graphql/generated/graphql";
+} from "../graphql/generated/gql-types";
 
 const query = gql`
   query GetProductsList {

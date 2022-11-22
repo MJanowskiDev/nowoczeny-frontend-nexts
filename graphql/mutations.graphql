@@ -10,3 +10,10 @@ mutation CreateOrderMutation($order: OrderCreateInput!) {
     id
   }
 }
+
+mutation PublishProductReview($id: ID!) {
+  publishReview(to: PUBLISHED, where: { id: $id }) {
+    stage
+    id
+  }
+}
