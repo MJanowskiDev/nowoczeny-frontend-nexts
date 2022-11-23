@@ -2,20 +2,19 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema:
-    "https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/cla8iu8x60ux401t5hoqfe3k7/master",
-
+  schema: process.env.NEXT_PUBLIC_CMS_URL,
   documents: "graphql/*.graphql",
   generates: {
-    "graphql/generated/": {
-      preset: "client",
+    "graphql/generated/gql-types.ts": {
+      // preset: "client",
       plugins: [
-        // "typescript",
-        // "typescript-operations",
-        // "typescript-react-apollo",
+        "typescript",
+        "typescript-operations",
+        "typescript-react-apollo",
       ],
     },
   },
 };
 
 export default config;
+``;
