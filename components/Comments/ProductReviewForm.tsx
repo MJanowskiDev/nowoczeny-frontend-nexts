@@ -50,7 +50,7 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
           query: GetReviewsForProductSlugDocument,
           variables: { slug: productSlug },
         });
-      console.log(originalReviewsQuery, result);
+
       if (!originalReviewsQuery?.product?.reviews || !result.data?.review) {
         return;
       }
@@ -65,7 +65,7 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
           ],
         },
       };
-      console.log(newReviewsQuery, "HERE");
+
       cache.writeQuery({
         query: GetReviewsForProductSlugDocument,
         variables: { slug: productSlug },
