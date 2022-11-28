@@ -2472,7 +2472,6 @@ export type ImageTransformationInput = {
 
 /** Locale system enumeration */
 export enum Locale {
-  De = 'de',
   /** System locale */
   En = 'en'
 }
@@ -10714,7 +10713,7 @@ export type GetProductDetailsBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetProductDetailsBySlugQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', slug: string, name: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
+export type GetProductDetailsBySlugQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', id: string, slug: string, name: string, price: number, description: string, images: Array<{ __typename?: 'Asset', url: string }> }> };
 
 export type GetProductsSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10912,6 +10911,7 @@ export type GetProductsListQueryResult = Apollo.QueryResult<GetProductsListQuery
 export const GetProductDetailsBySlugDocument = gql`
     query GetProductDetailsBySlug($slug: String) {
   products(where: {slug: $slug}) {
+    id
     slug
     name
     price

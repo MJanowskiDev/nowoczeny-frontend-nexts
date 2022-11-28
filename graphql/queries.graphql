@@ -30,6 +30,7 @@ query GetProductsList {
 
 query GetProductDetailsBySlug($slug: String) {
   products(where: { slug: $slug }) {
+    id
     slug
     name
     price

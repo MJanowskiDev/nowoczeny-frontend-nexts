@@ -60,7 +60,7 @@ const CartContent = () => {
 
 const CartSummary = () => {
   const cartState = useCartState();
-
+  console.log("cartState", cartState);
   const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
   );
@@ -80,14 +80,8 @@ const CartSummary = () => {
       body: JSON.stringify(
         cartState.items.map((cartItem) => {
           return {
-            price_data: {
-              currency: "PLN",
-              unit_amount: cartItem.price * 100,
-              product_data: {
-                name: cartItem.title,
-              },
-            },
-            quantity: cartItem.count,
+            slug: cartItem.id,
+            count: cartItem.count,
           };
         })
       ),
