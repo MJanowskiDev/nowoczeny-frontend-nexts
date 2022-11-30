@@ -1,4 +1,8 @@
 import { useCartState } from "../components/Cart/CartContext";
+
+import { loadStripe } from "@stripe/stripe-js";
+import Stripe from "stripe";
+
 const CartPage = () => {
   return (
     <div>
@@ -56,13 +60,54 @@ const CartContent = () => {
 
 const CartSummary = () => {
   const cartState = useCartState();
+  console.log("cartState", cartState);
+  const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+  );
+
+  const pay = async () => {
+    const stripe = await stripePromise;
+
+    if (!stripe) {
+      throw new Error("Problem with stripe ");
+    }
+
+    const res = await fetch("/api/checkout", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(
+        cartState.items.map((cartItem) => {
+          return {
+            slug: cartItem.id,
+            count: cartItem.count,
+          };
+        })
+      ),
+    });
+    const { session }: { session: Stripe.Response<Stripe.Checkout.Session> } =
+      await res.json();
+
+    await stripe.redirectToCheckout({ sessionId: session.id });
+  };
+
   return (
-    <div>
-      <h2>Podsumowanie koszyka</h2>
-      <p>
-        Lista elementow:{" "}
-        <span className="font-bold">{cartState.items.length}</span>
-      </p>
+    <div className="flex flex-col px-10 justify-between">
+      <div>
+        <h2>Podsumowanie koszyka</h2>
+        <p>
+          Lista elementow:{" "}
+          <span className="font-bold">{cartState.items.length}</span>
+        </p>
+      </div>
+      <button
+        onClick={pay}
+        type="button"
+        className="block w-full rounded-lg bg-black p-2.5 text-sm text-white"
+      >
+        Confirm order
+      </button>
     </div>
   );
 };
