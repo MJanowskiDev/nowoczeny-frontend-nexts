@@ -15,7 +15,7 @@ export const Input = <TFormData extends Record<string, unknown>>({
 
   return (
     <div
-      className={` bg-gray-100/50 dark:bg-gray-900 dark:text-white ${
+      className={`dark:bg-gray-900 dark:text-white ${
         wrappingElementStyle ? wrappingElementStyle : ""
       }`}
     >
