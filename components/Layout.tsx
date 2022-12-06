@@ -16,7 +16,7 @@ export const Layout = ({ children }: LayoutProps) => {
       </Head>
       <Header />
       <div className="flex-grow flex h-full justify-center">
-        <div className="max-w-5xl pt-2">{children}</div>
+        <div className="max-w-5xl w-full pt-2">{children}</div>
       </div>
       <Footer />
     </div>

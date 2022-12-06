@@ -2,8 +2,11 @@ import { useCartState } from "../components/Cart/CartContext";
 
 import { loadStripe } from "@stripe/stripe-js";
 import Stripe from "stripe";
+import { useSession } from "next-auth/react";
 
 const CartPage = () => {
+  const session = useSession();
+  console.log("Session", session);
   return (
     <div>
       <h1>Cart</h1>
