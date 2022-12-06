@@ -64,50 +64,50 @@ const Home = () => {
   };
 
   const addProduct = async () => {
-    const data = await apolloClient.mutate<
-      CreateOrderMutationMutation,
-      CreateOrderMutationMutationVariables
-    >({
-      mutation: CreateOrderMutationDocument,
-      variables: {
-        order: {
-          email: "mail@mail.pl",
-          total: 2039,
-          stripeCheckoutId: "!!stripe-checkout-id!!",
-          orderItems: {
-            create: [
-              {
-                quantity: 7,
-                total: 35,
-                product: {
-                  connect: {
-                    id: "ckdu49mfc0h070102jgprxnj0",
-                  },
-                },
-              },
-              {
-                quantity: 1,
-                total: 5,
-                product: {
-                  connect: {
-                    id: "ckdu48unc0gzq0158mbzvyzg3",
-                  },
-                },
-              },
-              {
-                quantity: 1,
-                total: 1999,
-                product: {
-                  connect: {
-                    id: "ckdu44mn40gxh010405uwgbtw",
-                  },
-                },
-              },
-            ],
-          },
-        },
-      },
-    });
+    // const data = await apolloClient.mutate<
+    //   CreateOrderMutationMutation,
+    //   CreateOrderMutationMutationVariables
+    // >({
+    //   mutation: CreateOrderMutationDocument,
+    //   variables: {
+    //     order: {
+    //       email: "mail@mail.pl",
+    //       total: 2039,
+    //       stripeCheckoutId: "!!stripe-checkout-id!!",
+    //       orderItems: {
+    //         create: [
+    //           {
+    //             quantity: 7,
+    //             total: 35,
+    //             product: {
+    //               connect: {
+    //                 id: "ckdu49mfc0h070102jgprxnj0",
+    //               },
+    //             },
+    //           },
+    //           {
+    //             quantity: 1,
+    //             total: 5,
+    //             product: {
+    //               connect: {
+    //                 id: "ckdu48unc0gzq0158mbzvyzg3",
+    //               },
+    //             },
+    //           },
+    //           {
+    //             quantity: 1,
+    //             total: 1999,
+    //             product: {
+    //               connect: {
+    //                 id: "ckdu44mn40gxh010405uwgbtw",
+    //               },
+    //             },
+    //           },
+    //         ],
+    //       },
+    //     },
+    //   },
+    // });
 
     console.log(data);
   };
