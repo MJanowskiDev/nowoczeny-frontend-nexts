@@ -52,6 +52,7 @@ export const NewsletterForm = () => {
             type="email"
             id="email"
             placeholder="Enter your e-mail"
+            data-testid="email-newsletter-input"
             {...register("email")}
           />
         </div>
@@ -59,6 +60,7 @@ export const NewsletterForm = () => {
         <button
           className="block w-full rounded-lg bg-black p-2.5 text-sm text-white"
           type="submit"
+          data-testid="email-newsletter-submit"
         >
           Subscribe
         </button>
