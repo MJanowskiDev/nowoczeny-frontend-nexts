@@ -5,13 +5,8 @@ import {
   useState,
   useEffect,
 } from "react";
-
-interface CartItem {
-  readonly id: string;
-  readonly price: number;
-  readonly title: string;
-  readonly count?: number;
-}
+import type { CartItem } from "./CartTypes";
+import { withNewCartItem } from "./CartUtils";
 
 interface CartState {
   readonly items: readonly CartItem[];
@@ -41,26 +36,7 @@ export const CartStateContextProvider = ({
   }, [cartItems, loaded]);
 
   const addItem = (item: CartItem) => {
-    setCartItems((prevState) => {
-      const existingItem = prevState.find(
-        (prevItem) => prevItem.id === item.id
-      );
-
-      if (!existingItem) {
-        return [...prevState, item];
-      }
-
-      return prevState.map((existingItem) => {
-        if (existingItem.id === item.id) {
-          return {
-            ...existingItem,
-            count: existingItem.count ? existingItem.count + 1 : 1,
-          };
-        } else {
-          return existingItem;
-        }
-      });
-    });
+    setCartItems((prevState) => withNewCartItem(prevState, item));
   };
 
   const removeItem = (id: CartItem["id"]) => {
