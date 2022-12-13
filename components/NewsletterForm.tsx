@@ -24,24 +24,34 @@ const newsletterFormSchema = yup
 type NewsletterFormData = yup.InferType<typeof newsletterFormSchema>;
 
 export const NewsletterForm = () => {
-  const { register, setValue, handleSubmit, formState } =
-    useForm<NewsletterFormData>({
-      resolver: yupResolver(newsletterFormSchema),
-    });
+  const { mutate, status } = useAddToNewsletterMutation();
+  return <NewsletterFormView onSubmit={mutate} status={status} />;
+};
 
-  const { mutate, isLoading, isSuccess, isError } =
-    useAddToNewsletterMutation();
-  const onSubmit = handleSubmit((data) => {
-    mutate(data);
+interface NewsletterFormViewProps {
+  onSubmit: (formData: NewsletterFormData) => void;
+  status: "error" | "idle" | "loading" | "success";
+}
+
+export const NewsletterFormView = ({
+  onSubmit,
+  status,
+}: NewsletterFormViewProps) => {
+  const { register, handleSubmit } = useForm<NewsletterFormData>({
+    resolver: yupResolver(newsletterFormSchema),
+  });
+
+  const doSubmit = handleSubmit((data) => {
+    onSubmit(data);
   });
 
   return (
     <>
-      {isLoading && <p>Is loading</p>}
-      {isError && <p>Is error</p>}
-      {isSuccess && <p>isSuccess</p>}
+      {status === "loading" && <p>Is loading</p>}
+      {status === "error" && <p>Is error</p>}
+      {status === "success" && <p>isSuccess</p>}
 
-      <form onSubmit={onSubmit}>
+      <form onSubmit={doSubmit}>
         <div>
           <label className="mb-1 block text-sm text-gray-600" htmlFor="email">
             E-mail
@@ -52,6 +62,7 @@ export const NewsletterForm = () => {
             type="email"
             id="email"
             placeholder="Enter your e-mail"
+            data-testid="email-newsletter-input"
             {...register("email")}
           />
         </div>
@@ -59,6 +70,7 @@ export const NewsletterForm = () => {
         <button
           className="block w-full rounded-lg bg-black p-2.5 text-sm text-white"
           type="submit"
+          data-testid="email-newsletter-submit"
         >
           Subscribe
         </button>
